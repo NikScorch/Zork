@@ -72,7 +72,7 @@ void GameState::tick()
         }
         if (x > width())
         {
-            currentRoomPos->setX(std::max(currentRoomPos->getX() + 1, settings::MAP_WIDTH - 1));
+            currentRoomPos->setX(std::min(currentRoomPos->getX() + 1, settings::MAP_WIDTH - 1));
             player->getPos()->setX(50);
         }
         if (y < 0)
@@ -82,7 +82,7 @@ void GameState::tick()
         }
         if (y > height())
         {
-            currentRoomPos->setY(std::max(currentRoomPos->getY() + 1, settings::MAP_HEIGHT - 1));
+            currentRoomPos->setY(std::min(currentRoomPos->getY() + 1, settings::MAP_HEIGHT - 1));
             player->getPos()->setY(50);
         }
         unloadRoom();
