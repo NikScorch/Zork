@@ -37,6 +37,10 @@ set(PROJECT_SOURCES
         src/enemy.cpp
 )
 
+if (ENABLE_DEBUG)
+    add_compile_definitions(DEBUG)
+endif()
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(zork
         MANUAL_FINALIZATION

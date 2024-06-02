@@ -10,7 +10,7 @@
 - [x] Abstract classes
 - [x] Copy constructors (deep , shallow copy)
 - [x] Bit structures
-- [ ] Advanced pre-processor directives
+- [x] Advanced pre-processor directives
 - [x] C++ Object Construction Sequence
 - [x] Initializer List
 - [x] C++ References
