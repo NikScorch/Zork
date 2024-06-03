@@ -3,6 +3,7 @@
 #include "include/gamestate.h"
 #include "include/player.h"
 #include "include/point.h"
+#include "include/OutOfBoundsException.h"
 
 #include <QApplication>
 #include <QGraphicsScene>
@@ -17,6 +18,7 @@
 #include <qpixmap.h>
 
 #include <algorithm>
+#include <iostream>
 
 QString TITLE("Zork Game");
 
@@ -58,36 +60,42 @@ void GameState::tick()
      * find the roomPos of the new room
      * check if new roomPos is valid
      */
-    // TODO: player should hit the edge rather than bouncing to the
-    //       opposite side of the room when unable to move to next room
-    int x = player->getPos()->getX();
-    int y = player->getPos()->getY();
-    if (x < 0 || x > width() || y < 0 || y > height()) 
-    {
-        if (x < 0) 
+    try {
+        // TODO: player should hit the edge rather than bouncing to the
+        //       opposite side of the room when unable to move to next room
+        int x = player->getPos()->getX();
+        int y = player->getPos()->getY();
+        if (x < 0 || x > width() || y < 0 || y > height()) 
         {
-            currentRoomPos->setX(std::max(currentRoomPos->getX() - 1, 0));
-            player->getPos()->setX(width()-50);
+            if (x < 0) 
+            {
+                currentRoomPos->setX(std::max(currentRoomPos->getX() - 1, 0));
+                player->getPos()->setX(width()-50);
 
+            }
+            if (x > width())
+            {
+                currentRoomPos->setX(std::min(currentRoomPos->getX() + 1, settings::MAP_WIDTH - 1));
+                player->getPos()->setX(50);
+            }
+            if (y < 0)
+            {
+                currentRoomPos->setY(std::max(currentRoomPos->getY() - 1, 0));
+                player->getPos()->setY(height()-50);
+            }
+            if (y > height())
+            {
+                currentRoomPos->setY(std::min(currentRoomPos->getY() + 1, settings::MAP_HEIGHT - 1));
+                player->getPos()->setY(50);
+            }
+            unloadRoom();
+            loadRoom(currentRoomPos);
         }
-        if (x > width())
-        {
-            currentRoomPos->setX(std::min(currentRoomPos->getX() + 1, settings::MAP_WIDTH - 1));
-            player->getPos()->setX(50);
-        }
-        if (y < 0)
-        {
-            currentRoomPos->setY(std::max(currentRoomPos->getY() - 1, 0));
-            player->getPos()->setY(height()-50);
-        }
-        if (y > height())
-        {
-            currentRoomPos->setY(std::min(currentRoomPos->getY() + 1, settings::MAP_HEIGHT - 1));
-            player->getPos()->setY(50);
-        }
-        unloadRoom();
-        loadRoom(currentRoomPos);
-   }
+    }
+    catch (const OutOfBoundsException& e) {
+        std::cerr << "Error: " << e.what() << std::endl << std::flush;
+        std::cerr << "Error: This code should not be reachable" << std::endl << std::flush;
+    }
 
     // update all entities
     for (int i = 0; i < currentRoom->getEntities()->size(); i++) {
@@ -111,6 +119,16 @@ void GameState::unloadRoom()
 
 void GameState::loadRoom(Point *roomPos)
 {
+    if (*roomPos < Point(0, 0) || *roomPos > Point(settings::MAP_WIDTH, settings::MAP_HEIGHT))
+    {
+        throw OutOfBoundsException("Room position out of bounds: (" 
+                + std::to_string(roomPos->getX()) 
+                + ", " 
+                + std::to_string(roomPos->getY()) 
+                + ")"
+        );
+    }
+
     currentRoom = &map[roomPos->getX()][roomPos->getY()];
     for (Entity *entity: *currentRoom->getEntities()) 
     {

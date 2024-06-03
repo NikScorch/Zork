@@ -14,10 +14,10 @@ public:
     void setX(int x);
     void setY(int y);
 
-    Point operator+(const Point& other) const;
-    Point operator-(const Point& other) const;
-    bool operator<(const Point& other) const;
-    bool operator>(const Point& other) const;
+    Point operator+(const Point other) const;
+    Point operator-(const Point other) const;
+    bool operator<(const Point other) const;
+    bool operator>(const Point other) const;
 
     friend class Entity;
 private:

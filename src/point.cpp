@@ -38,22 +38,22 @@ void Point::setY(int y)
     this->y = y;
 }
 
-Point Point::operator+(const Point& other) const
+Point Point::operator+(const Point other) const
 {
     return Point(this->getX() + other.getX(), this->getY() + other.getY());
 }
 
-Point Point::operator-(const Point& other) const
+Point Point::operator-(const Point other) const
 {
     return Point(this->getX() - other.getX(), this->getY() - other.getY());
 }
 
-bool Point::operator<(const Point& other) const
+bool Point::operator<(const Point other) const
 {
     return this->getX() < other.getX() && this->getY() < other.getY();
 }
 
-bool Point::operator>(const Point& other) const
+bool Point::operator>(const Point other) const
 {
     return this->getX() > other.getX() && this->getY() > other.getY();
 }

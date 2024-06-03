@@ -4,7 +4,7 @@
 - [ ] template classes
 - [x] Multiple inheritance
 - [x] namespaces
-- [ ] Programmer defined exceptions
+- [x] Programmer defined exceptions
 - [x] Unions
 - [x] Operator overloading
 - [x] Abstract classes
