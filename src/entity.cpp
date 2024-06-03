@@ -24,10 +24,10 @@ Entity::~Entity()
     delete pixmap;
 }
 
-void Entity::tick()
-{
-    
-}
+// void Entity::tick()
+// {
+//     
+// }
 
 void Entity::moveUp() 
 {

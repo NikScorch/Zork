@@ -24,7 +24,7 @@ public:
     Entity(const Entity& other);
     ~Entity();
 
-    virtual void tick();
+    virtual void tick() = 0;
 
     virtual void moveUp();
     virtual void moveDown();
