@@ -24,11 +24,6 @@ Entity::~Entity()
     delete pixmap;
 }
 
-// void Entity::tick()
-// {
-//     
-// }
-
 void Entity::moveUp() 
 {
     if (this->status.canMove) {
